@@ -7,7 +7,7 @@ name = "codebase-knowledge-mcp"
 version = "0.1.6"
 description = "A Model Context Protocol server for codebase knowledge management and semantic search"
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "CC-BY-NC-SA-4.0" }
 authors = [
     { name = "Codebase Knowledge MCP Team" }
 ]
