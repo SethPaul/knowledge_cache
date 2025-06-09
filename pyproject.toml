@@ -1,0 +1,92 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "codebase-knowledge-mcp"
+version = "0.1.6"
+description = "A Model Context Protocol server for codebase knowledge management and semantic search"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Codebase Knowledge MCP Team" }
+]
+keywords = ["mcp", "model-context-protocol", "codebase", "knowledge", "semantic-search"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers", 
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11", 
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    # MCP Framework (Required)
+    "mcp>=1.0.0",
+    
+    # Database & Storage  
+    "asyncpg>=0.29.0",
+    "redis[hiredis]>=5.0.1",
+    "pgvector>=0.2.4",
+    
+    # Data Models & Validation
+    "pydantic[email]>=2.5.0",
+    
+    # Async & Utilities
+    "structlog>=23.2.0",
+    "python-dotenv>=1.0.0",
+    
+    # Text Processing (for semantic search)
+    "sentence-transformers>=3.0.0",
+    "numpy>=1.26.0",
+    "torch>=2.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.21.1",
+    "black>=23.11.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+codebase-knowledge-mcp = "codebase_knowledge_mcp.run:main_entry"
+codebase-knowledge-mcp-stdio = "codebase_knowledge_mcp.run:main_entry"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/codebase-knowledge-mcp"
+Repository = "https://github.com/yourusername/codebase-knowledge-mcp"
+Issues = "https://github.com/yourusername/codebase-knowledge-mcp/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/codebase_knowledge_mcp"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "/.git",
+    "/.vscode", 
+    "/dist",
+    "**/__pycache__",
+    "**/.venv",
+    "**/venv",
+    "*.pyc",
+    "*.pyo",
+    "*.orig",
+    "*.rej",
+    "*.bak",
+    "*~",
+    ".DS_Store",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310" 

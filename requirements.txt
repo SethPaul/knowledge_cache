@@ -1,0 +1,27 @@
+# Reduced Scope MCP Server Dependencies
+# Core functionality only - no extras
+
+# MCP Framework (Required)
+mcp>=1.0.0               # Model Context Protocol framework
+
+# Database & Storage
+asyncpg>=0.29.0          # PostgreSQL async driver
+redis[hiredis]>=5.0.1    # Redis caching with faster parser
+pgvector>=0.2.4          # Vector similarity search
+
+# Data Models & Validation  
+pydantic[email]>=2.5.0   # Type validation with email support
+
+# Async & Utilities
+structlog>=23.2.0        # Structured logging
+python-dotenv>=1.0.0     # Environment variable management
+
+# Text Processing (for semantic search)
+sentence-transformers>=3.0.0  # Embedding generation (Python 3.12 compatible)
+numpy>=1.26.0            # Numerical operations (Python 3.12 compatible)
+torch>=2.1.0             # PyTorch backend for sentence-transformers
+
+# Development & Testing (Optional)
+pytest>=7.4.3           # Testing framework
+pytest-asyncio>=0.21.1  # Async test support
+black>=23.11.0           # Code formatting 
