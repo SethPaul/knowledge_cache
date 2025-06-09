@@ -23,13 +23,42 @@ This MCP server solves the "M×N integration problem" for codebase intelligence 
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Automated Setup (Recommended)
+
+The easiest way to get started is using our automated setup script that handles everything:
+
+```bash
+# 1. Clone the repository
+git clone <repository>
+cd knowledge_cache
+
+# 2. Run the automated setup
+chmod +x setup.sh
+./setup.sh
+
+# 3. (Optional) Verify the setup
+./test_setup.sh
+```
+
+**What the setup script does:**
+- 🐳 Builds custom PostgreSQL Docker image with pgvector pre-installed
+- 🚀 Starts PostgreSQL and Redis containers
+- 🐍 Creates virtual environment and installs dependencies
+- 📦 Builds and installs the MCP package
+- 🗄️ Initializes database schema with adaptive pgvector support
+- 🧪 Tests the complete installation
+
+### Manual Setup
+
+If you prefer manual setup or need custom configuration:
+
+#### Prerequisites
 - Python 3.10+
 - [uv](https://docs.astral.sh/uv/) package manager (modern Python package management)
-- PostgreSQL 14+ with pgvector extension
-- Redis 6.0+
+- Docker and Docker Compose
+- PostgreSQL client tools (for manual schema setup)
 
-### Setup
+#### Steps
 ```bash
 # 1. Install uv (if not already installed)
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -103,6 +132,7 @@ Add to your MCP client configuration (e.g., Claude Desktop):
 
 ## 📊 Architecture
 
+### Overall System Architecture
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     AI Agents                              │
@@ -120,6 +150,32 @@ Add to your MCP client configuration (e.g., Claude Desktop):
 │   (Hot Data L2)     │      (Cold Storage + Vector Search)  │
 └─────────────────────┴───────────────────────────────────────┘
 ```
+
+### Docker Infrastructure
+The setup uses a custom Docker architecture for reliable pgvector support:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Docker Compose                          │
+├─────────────────────┬───────────────────────────────────────┤
+│  Custom PostgreSQL  │              Redis Cache             │
+│     Container        │              Container              │
+│                     │                                     │
+│ • pgvector/pg16 base│ • redis:7-alpine                   │
+│ • pgvector pre-      │ • Persistent storage               │
+│   installed         │ • LRU eviction policy              │
+│ • Auto extension    │ • Health monitoring                │
+│   setup             │                                     │
+│ • Schema init       │                                     │
+│   scripts           │                                     │
+└─────────────────────┴───────────────────────────────────────┘
+```
+
+**Key improvements in Docker setup:**
+- **Custom PostgreSQL image**: Built with pgvector extension pre-installed
+- **Automated initialization**: Extensions and schema created automatically
+- **No manual intervention**: Complete setup with single command
+- **Adaptive schema**: Automatically detects and configures pgvector capabilities
 
 ## 🔍 Logging and Observability
 
